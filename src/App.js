@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Layout } from 'antd'
+import MemeList from "./components/MemeList"
+import Menubar from "./components/Menubar"
+import Login from './components/Login'
+import Signup from './components/Signup'
+import Post from './components/Post'
+import 'antd/dist/antd.css'
+
+const { Header, Content, Footer } = Layout
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Layout className="layout">
+        <Header>
+          <Menubar />
+        </Header>
+        <Content style={{ padding: '50px' }}>
+          <MemeList />
+          <Switch>
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/post" component={Post} />
+          </Switch>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+          &copy; 2021 Boca Code
+        </Footer>
+      </Layout>    
+    </Router>
+  )
 }
 
-export default App;
+export default App
