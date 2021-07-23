@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { getMemes } from '../helpers'
 import { Card, Col, Row } from 'antd'
 
-function MemeList() {
-  const [memes, setMemes] = useState()
+function MemeList({ memes, setMemes }) {
   useEffect(() => {
-    fetch('https://meme-api-bc.web.app/memes')
-      .then(response => response.json())
-      .then(data => setMemes(data))
-      .catch(err => console.error(err))
-  }, [])
+    getMemes(setMemes)
+  }, [setMemes])
   if(!memes) {
     return <h1>Loading...</h1>
   }

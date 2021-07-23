@@ -1,14 +1,27 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Modal, Form, Input, Button } from 'antd'
+import { Modal, Form, Input, Button, notification } from 'antd'
 import { AuthContext } from '../App'
+import { getMemes } from '../helpers'
 
-function Post() {
+function Post({ setMemes }) {
   let history = useHistory()
   const { user } = useContext(AuthContext)
   const postMeme = (values) => {
     console.log(values)
-    // TODO: send POST to API
+    fetch('https://meme-api-bc.web.app/memes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    })
+      .then(() => {
+        notification.open({ message: 'Meme Created' })
+        getMemes(setMemes)
+        history.push('/')
+      })
+      .catch(err => console.error(err))
   }
   return (
     <Modal
@@ -36,7 +49,7 @@ function Post() {
           <Form.Item
             label="Creator"
             name="creator">
-            <Input defaultValue={user.displayName} />
+            <Input defaultValue={user ? user.displayName : ''} />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
